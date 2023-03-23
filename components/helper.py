@@ -41,7 +41,7 @@ def extractData():
 
 # function to transform data as per task
 def transformData():
-    df = pd.read_excel("extracted_data/employee_data.xlsx")
+    df = pd.read_csv("test/all_emp/all_data.csv")
 
     # finding unique ids of all employees in the data
     unique_ids = df["employee id"].unique()
@@ -130,8 +130,8 @@ def loadData():
     )
 
     # Upload the Excel file to S3 bucket
-    s3.Bucket('unthinkable-mayank-test').upload_file(
-        Key="output/kartik-lavkush.xlsx", Filename="test/final_data/employee_transformed_excel_data.xlsx"
-    )
+    # s3.Bucket('unthinkable-mayank-test').upload_file(
+    #     Key="output/kartik-lavkush.xlsx", Filename="test/final_data/employee_transformed_excel_data.xlsx"
+    # )
     print(sorted_df)
     return {"message": "data_loaded"}

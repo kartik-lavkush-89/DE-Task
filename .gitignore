@@ -55,3 +55,4 @@ env/
 extracted_data/
 csv/
 test/
+main.py
