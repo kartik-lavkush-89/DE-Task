@@ -19,7 +19,7 @@ s3 = boto3.resource(
 # function to extract data from S3 Bucket
 def extractData():
     # Define the filename for the downloaded Excel file
-    filename = f"extracted_data/employee_data.xlsx"
+    filename = "extracted_data/employee_data.xlsx"
 
     # Download the Excel file from S3 to the local machine
     s3.Bucket("unthinkable-mayank-test").download_file(
@@ -28,7 +28,6 @@ def extractData():
 
     # Read the downloaded Excel file into a Pandas DataFrame
     df = pd.read_excel(filename)
-    extractData.df = df
 
     # Save the DataFrame to a CSV file
     df.to_csv("test/all_emp/all_data.csv", index=False)
@@ -42,8 +41,7 @@ def extractData():
 
 # function to transform data as per task
 def transformData():
-    filename = f"extracted_data/employee_data.xlsx"
-    df = pd.read_excel(filename)
+    df = pd.read_excel("extracted_data/employee_data.xlsx")
 
     # finding unique ids of all employees in the data
     unique_ids = df["employee id"].unique()
