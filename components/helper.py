@@ -56,6 +56,9 @@ def transformData():
 
         # storing the data of the employee in the dictionary
         employee_data[employee_id] = employee_df
+        
+    # creating a dictionary to store transformed data of each employee
+    transformed_data = {}
 
     # looping through the data of each employee to calculate average, in time and out time1
     for employee_id, employee_df in employee_data.items():
@@ -69,11 +72,6 @@ def transformData():
         employee_df["in time"] = in_time
         employee_df["out time1"] = out_time1
 
-    # creating a dictionary to store transformed data of each employee
-    transformed_data = {}
-
-    # looping through the data of each employee to store transformed data in the dictionary
-    for employee_id, employee_df in employee_data.items():
         # storing the transformed data of the employee in the dictionary
         transformed_data[employee_id] = employee_df
 
@@ -130,8 +128,8 @@ def loadData():
     )
 
     # Upload the Excel file to S3 bucket
-    # s3.Bucket('unthinkable-mayank-test').upload_file(
-    #     Key="output/kartik-lavkush.xlsx", Filename="test/final_data/employee_transformed_excel_data.xlsx"
-    # )
+    s3.Bucket('unthinkable-mayank-test').upload_file(
+        Key="output/kartik-lavkush.xlsx", Filename="test/final_data/employee_transformed_excel_data.xlsx"
+    )
     print(sorted_df)
     return {"message": "data_loaded"}
