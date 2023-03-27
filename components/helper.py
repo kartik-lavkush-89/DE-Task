@@ -19,21 +19,14 @@ s3 = boto3.resource(
 # function to extract data from S3 Bucket
 def extractData():
     # Define the filename for the downloaded Excel file
-    filename = "extracted_data/employee_data.xlsx"
+    filename = "data/extracted_data/employee_data.xlsx"
 
     # Download the Excel file from S3 to the local machine
     s3.Bucket("unthinkable-mayank-test").download_file(
         Key="de_test1234/employee_1.xlsx", Filename=filename
     )
 
-    # Read the downloaded Excel file into a Pandas DataFrame
-    df = pd.read_excel(filename)
-
-    # Save the DataFrame to a CSV file
-    df.to_csv("test/all_emp/all_data.csv", index=False)
-
-    # Print the DataFrame to the console
-    print(df.to_string())
+    print("data_extracted")
 
     # Return a dictionary with a message indicating that the function has completed
     return {"message": "done"}
@@ -41,7 +34,7 @@ def extractData():
 
 # function to transform data as per task
 def transformData():
-    df = pd.read_csv("test/all_emp/all_data.csv")
+    df = pd.read_excel("data/extracted_data/employee_data.xlsx")
 
     # finding unique ids of all employees in the data
     unique_ids = df["employee id"].unique()
@@ -110,26 +103,26 @@ def transformData():
     print(results_df)
 
     # saving the results to a csv file
-    results_df.to_csv("test/transformed/employee_transformed_data.csv", index=False)
+    results_df.to_csv("data/transformed/employee_transformed_data.csv", index=False)
     return {"message": "data_transformed"}
 
 
 # function to laod data into S3 bucket
 def loadData():
     # Read the transformed data CSV file
-    df = pd.read_csv("test/transformed/employee_transformed_data.csv")
+    df = pd.read_csv("data/transformed/employee_transformed_data.csv")
 
     # Sort the DataFrame by employee_id column in ascending order
     sorted_df = df.sort_values(by=["employee_id"], ascending=True)
 
     # Save the sorted DataFrame to an Excel file
     sorted_df.to_excel(
-        "test/final_data/employee_transformed_excel_data.xlsx", index=False
+        "data/final_data/employee_transformed_excel_data.xlsx", index=False
     )
 
     # Upload the Excel file to S3 bucket
-    s3.Bucket('unthinkable-mayank-test').upload_file(
-        Key="output/kartik-lavkush.xlsx", Filename="test/final_data/employee_transformed_excel_data.xlsx"
-    )
+    # s3.Bucket('unthinkable-mayank-test').upload_file(
+    #     Key="output/kartik-lavkush.xlsx", Filename="test/final_data/employee_transformed_excel_data.xlsx"
+    # )
     print(sorted_df)
     return {"message": "data_loaded"}
